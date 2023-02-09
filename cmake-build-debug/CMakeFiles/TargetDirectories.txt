@@ -1,0 +1,3 @@
+C:/Users/Honor MagicBook/CLionProjects/firstproject/cmake-build-debug/CMakeFiles/firstproject.dir
+C:/Users/Honor MagicBook/CLionProjects/firstproject/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Honor MagicBook/CLionProjects/firstproject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
