@@ -6,12 +6,16 @@
 #define TIMESTAMP_SIZE 3
 #define TIMESTAMP_STRING_SIZE 8
 
-void print_array(int* array, size_t size) {
-    for (int i = 0; i < size; ++i) {
-        printf("%d\n", array[i]);
-    }
-}
-
+/*! \brief Check timestamp by valid values
+ *
+ *  \details Check timestamps values by valid values.
+ *
+ *  \param   hour               Hour values.
+ *  \param   minute            Minute values.
+ *  \param   second           Seconds value.
+ *
+ *  \return  Returns the flag whether the time values are valid
+ */
 int check_timestamp(int hour, int minute, int second) {
     int valid = 1;
     if(hour < 0 || hour >= 24) {
@@ -26,16 +30,40 @@ int check_timestamp(int hour, int minute, int second) {
     return valid;
 }
 
+
+/*! \brief Fills the array with temporary invalid values
+ *
+ *  \details Fills the array with temporary invalid values needed to store the current time value
+ *
+ *  \param   array            Timestamp array.
+ *  \param   size            Timestamp size.
+ *
+ */
 void init_array(int* array, size_t size) {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < size; ++i) {
         array[i] = INCORRECT_VALUE;
     }
 }
 
+
+/*! \brief Converts a timestamp to seconds
+ *
+ *  \param   timestamp            Timestamp array.
+ *
+ *  \return  Seconds value
+ */
 int timestamp_seconds(int* timestamp) {
     return (timestamp[0] * 60 * 60) + (timestamp[1] * 60) + (timestamp[0]);
 }
 
+/*! \brief Checks the string for compliance with the desired format
+ *
+ *  \details Checks the string for compliance with the desired format of the type HH.MM.SS
+ *
+ *  \param   p_string            Pointer to string.
+ *
+ *  \return  flag validation
+ */
 int validate(char** p_string) {
     char* string = *p_string;
     int numbers = 0;
@@ -56,6 +84,15 @@ int validate(char** p_string) {
     return valid;
 }
 
+/*! \brief Collects a timestamp from a string
+ *
+ *  \details Parse a timestamp from a string into an array
+ *
+ *  \param   timestamp            Timestamp array
+ *  \param   p_string            Pointer to string.
+ *
+ *  \return  flag validation
+ */
 void split(int* timestamp, char** p_string) {
     int counter = 0;
     char* string = *p_string;
@@ -67,17 +104,20 @@ void split(int* timestamp, char** p_string) {
             timestamp[counter] = sum;
             sum = 0;
             counter++;
-            is_first = 1;
             koef = 10;
             continue;
         }
         sum += (int)((string[i] - 48) * koef);
-        is_first = 0;
         koef = 1;
     }
-
 }
 
+/*! \brief Main function
+ *
+ *  \details Control unit testing via console/terminal
+ *
+ *  \return 0, upon exit success
+ */
 int main() {
     char* first_string = (char*) malloc(TIMESTAMP_STRING_SIZE * sizeof first_string);
     char* second_string = (char*) malloc(TIMESTAMP_STRING_SIZE * sizeof second_string);
@@ -104,7 +144,10 @@ int main() {
         return 0;
     }
     printf("%d seconds\n", timestamp_seconds(second_timestamp) - timestamp_seconds(first_timestamp));
-
+    free(first_timestamp);
+    free(second_timestamp);
+    free(first_string);
+    free(second_string);
 
     return 0;
 }
